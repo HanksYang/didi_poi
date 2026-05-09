@@ -11,6 +11,12 @@ import shutil
 from pathlib import Path
 import argparse
 
+# Windows cp1252 can't encode emoji/CJK — force UTF-8 output
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+if hasattr(sys.stderr, 'reconfigure'):
+    sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+
 PROJECT_DIR = Path(__file__).parent
 DIST_DIR = PROJECT_DIR / 'dist'
 BUILD_DIR = PROJECT_DIR / 'build'

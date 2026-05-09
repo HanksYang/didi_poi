@@ -13,6 +13,7 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
     strategy:
       matrix:
         include:
@@ -37,60 +38,31 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install pyinstaller
+          python -m pip install --upgrade pip --quiet
+          pip install -r requirements.txt --quiet
+          pip install pyinstaller --quiet
+        shell: bash
 
-      - name: Build with PyInstaller (Windows)
-        if: matrix.os == 'windows-latest'
+      - name: Build with PyInstaller
         run: |
-          python package.py --clean
+          echo "Building for ${{ matrix.platform }}..."
+          python3 package.py --clean 2>&1
+        shell: bash
+        timeout-minutes: 40
+        env:
+          PYTHONUTF8: "1"
 
-      - name: Build with PyInstaller (macOS)
-        if: matrix.os == 'macos-latest'
+      - name: Check build output
         run: |
-          python3 package.py --clean
-
-      - name: Build with PyInstaller (Linux)
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          python3 package.py --clean
-
-      - name: Compress release (Windows)
-        if: matrix.os == 'windows-latest'
-        shell: pwsh
-        run: |
-          cd releases
-          Get-ChildItem -Directory | ForEach-Object {
-            if ($_.Name -match "Windows") {
-              Compress-Archive -Path $_.FullName -DestinationPath "$($_.Name).zip" -Force
-            }
-          }
-
-      - name: Compress release (macOS/Linux)
-        if: matrix.os != 'windows-latest'
-        run: |
-          cd releases
-          for dir in */; do
-            if [[ "$dir" == *"macOS"* ]] || [[ "$dir" == *"Linux"* ]]; then
-              zip -r "${dir%/}.zip" "$dir"
-            fi
-          done
+          ls -la releases/ || echo "No releases directory"
+        shell: bash
 
       - name: Upload to Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: releases/*.zip
+          files: releases/**/*.zip
           draft: false
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload artifacts (workflow dispatch)
-        if: github.event_name == 'workflow_dispatch'
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-${{ matrix.platform }}-${{ matrix.arch }}
-          path: releases/
-          retention-days: 7
