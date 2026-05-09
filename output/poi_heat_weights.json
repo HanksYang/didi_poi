@@ -1,0 +1,60 @@
+{
+  "poi_list": [
+    {
+      "name": "三里屯",
+      "lng": 116.44,
+      "lat": 39.92,
+      "heat_score": 0.9,
+      "rank": 1
+    },
+    {
+      "name": "朝阳门",
+      "lng": 116.42,
+      "lat": 39.9,
+      "heat_score": 0.85,
+      "rank": 2
+    },
+    {
+      "name": "国贸",
+      "lng": 116.46,
+      "lat": 39.91,
+      "heat_score": 0.8,
+      "rank": 3
+    },
+    {
+      "name": "工体",
+      "lng": 116.41,
+      "lat": 39.93,
+      "heat_score": 0.75,
+      "rank": 4
+    },
+    {
+      "name": "北京站",
+      "lng": 116.43,
+      "lat": 39.9,
+      "heat_score": 0.7,
+      "rank": 5
+    },
+    {
+      "name": "东直门",
+      "lng": 116.45,
+      "lat": 39.94,
+      "heat_score": 0.65,
+      "rank": 6
+    },
+    {
+      "name": "建国路",
+      "lng": 116.47,
+      "lat": 39.91,
+      "heat_score": 0.6,
+      "rank": 7
+    },
+    {
+      "name": "望京",
+      "lng": 116.5,
+      "lat": 39.98,
+      "heat_score": 0.55,
+      "rank": 8
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "provider": "volcano",
+  "start": {
+    "name": "中关村",
+    "lng": 116.39,
+    "lat": 39.9
+  },
+  "end": {
+    "name": "朝阳区",
+    "lng": 116.46,
+    "lat": 39.92
+  },
+  "routes_count": 1,
+  "routes": [
+    {
+      "id": 1,
+      "heat_efficiency": 0.38226123108904025,
+      "waypoints": [
+        "中关村",
+        "五道口",
+        "西单广场",
+        "故宫"
+      ]
+    }
+  ]
+}

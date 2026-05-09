@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DiDi 司机热点系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 30px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #f0f0f0;
+            background: #fafafa;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-button:hover {
+            background: #f5f5f5;
+        }
+
+        .tab-button.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            background: white;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 30px;
+            animation: fadeIn 0.3s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .upload-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f8f9ff;
+        }
+
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: #f0f2f5;
+        }
+
+        .upload-area.dragover {
+            border-color: #764ba2;
+            background: #e6e9ff;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .upload-area h3 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .upload-area p {
+            color: #999;
+            font-size: 14px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .parameter-group {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .parameter-group label {
+            display: block;
+            color: #333;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .parameter-group input,
+        .parameter-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-card {
+            background: #f9f9f9;
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .result-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-item label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .result-item value {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .status {
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none;
+            text-align: center;
+            font-weight: 500;
+            white-space: pre-wrap;
+        }
+
+        .status.success {
+            background: #f6ffed;
+            color: #52c41a;
+            border: 1px solid #b7eb8f;
+            display: block !important;
+        }
+
+        .status.error {
+            background: #fff1f0;
+            color: #ff4d4f;
+            border: 1px solid #ffccc7;
+            display: block !important;
+        }
+
+        .status.loading {
+            background: #e6f7ff;
+            color: #1890ff;
+            border: 1px solid #91d5ff;
+            display: block !important;
+        }
+
+        .route-card {
+            background: white;
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            transition: all 0.3s;
+        }
+
+        .route-card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .route-card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .route-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .stat-item {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .stat-label {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .stat-value {
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .waypoints {
+            margin-top: 15px;
+        }
+
+        .waypoint {
+            background: #f9f9f9;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .map-container {
+            margin-top: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f0f0f0;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .route-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+
+            .tab-button {
+                flex: 0 1 auto;
+                min-width: 100px;
+            }
+        }
+
+        .config-section {
+            padding: 15px;
+            background: #fafafa;
+            border-radius: 8px;
+            border: 1px solid #e8e8e8;
+            margin-bottom: 20px;
+        }
+
+        .config-section h3 {
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .config-section p {
+            color: #888;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .config-input-group {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+            align-items: stretch;
+        }
+
+        .config-input-group input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .config-input-group a {
+            padding: 10px 20px;
+            background: #1890ff;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .config-input-group a:hover {
+            background: #40a9ff;
+        }
+
+        .config-input-group a.volc {
+            background: #ff4d4f;
+        }
+
+        .config-input-group a.volc:hover {
+            background: #ff7875;
+        }
+
+        .config-help {
+            color: #aaa;
+            font-size: 12px;
+            margin: 5px 0;
+        }
+
+        .config-help a {
+            color: #1890ff;
+            text-decoration: none;
+        }
+
+        .config-help a.volc {
+            color: #ff4d4f;
+        }
+
+        .guide-box {
+            margin-top: 40px;
+            padding: 20px;
+            background: #f0f2f5;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .guide-box h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .guide-box ol {
+            color: #555;
+            line-height: 1.8;
+            margin: 10px 0;
+        }
+
+        .guide-box li {
+            margin-bottom: 8px;
+        }
+
+        .poi-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #ddd;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+            z-index: 100;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .poi-item {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.2s;
+        }
+
+        .poi-item:hover {
+            background: #f5f5f5;
+        }
+
+        .poi-item strong {
+            display: block;
+        }
+
+        .poi-score {
+            color: #999;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 DiDi 司机热点系统</h1>
+            <p>智能热力图识别 + 路线规划</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab(0)">📤 热力图上传</button>
+            <button class="tab-button" onclick="switchTab(1)">🗺️ 路线规划</button>
+            <button class="tab-button" onclick="switchTab(2)">⚙️ 设置</button>
+        </div>
+
+        <!-- Tab 1: 热力图上传 -->
+        <div id="tab-0" class="tab-content active">
+            <div class="upload-container">
+                <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+                    <div class="upload-icon">📊</div>
+                    <h3>拖拽或点击上传热力图</h3>
+                    <p>支持 JPG / PNG / GIF 格式，最大 50MB</p>
+                </div>
+                <input type="file" id="fileInput" accept="image/*" onchange="handleFiles(event)">
+
+                <div class="parameter-group">
+                    <label>时段选择</label>
+                    <select id="period">
+                        <option value="auto">自动推断（根据当前时间）</option>
+                        <option value="morning_peak">早高峰 (7:00-9:00)</option>
+                        <option value="daytime">白天 (10:00-16:00)</option>
+                        <option value="evening_peak">晚高峰 (17:00-20:00)</option>
+                    </select>
+
+                    <label>高斯衰减半径 (km)</label>
+                    <input type="number" id="sigma" value="3.0" min="1" max="10" step="0.5">
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" id="uploadBtn" onclick="uploadImage()" disabled>
+                        🚀 提交识别
+                    </button>
+                    <button class="btn" onclick="diagnoseImage()" style="background: #faad14; color: white; flex: 0.8;"
+                            id="diagnoseBtn" disabled>
+                        🔍 图像诊断
+                    </button>
+                </div>
+
+                <div id="uploadStatus" class="status"></div>
+                <div id="diagnosisResult"></div>
+
+                <div id="resultContainer"></div>
+            </div>
+        </div>
+
+        <!-- Tab 2: 路线规划 -->
+        <div id="tab-1" class="tab-content">
+            <div class="upload-container">
+                <h2 style="margin-top: 0; color: #333;">🗺️ 路线规划</h2>
+                <p style="color: #999; margin-bottom: 20px;">输入起点和终点，系统自动规划最优路线</p>
+
+                <div class="form-row">
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; color: #333; font-weight: 500;">起点</label>
+                        <div style="position: relative;">
+                            <input type="text" id="routeStart" placeholder="搜索或输入起点..." autocomplete="off"
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                            <div id="startPoiList" class="poi-list"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; color: #333; font-weight: 500;">终点</label>
+                        <div style="position: relative;">
+                            <input type="text" id="routeEnd" placeholder="搜索或输入终点..." autocomplete="off"
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                            <div id="endPoiList" class="poi-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 8px; color: #333; font-weight: 500;">城市</label>
+                    <select id="routeCity" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                        <option value="beijing">北京</option>
+                        <option value="shanghai">上海</option>
+                        <option value="guangzhou">广州</option>
+                        <option value="shenzhen">深圳</option>
+                        <option value="chengdu">成都</option>
+                    </select>
+                </div>
+
+                <div class="button-group" style="margin-top: 20px;">
+                    <button class="btn btn-primary" onclick="planRoute()">🧭 规划路线</button>
+                </div>
+
+                <div id="routeStatus" class="status"></div>
+
+                <div id="routeResultContainer"></div>
+
+                <div id="mapContainer" class="map-container" style="display: none;">
+                    <iframe id="routeMap"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 3: 设置 -->
+        <div id="tab-2" class="tab-content">
+            <div class="upload-container">
+                <h2 style="margin-top: 0; color: #333;">⚙️ 设置 API 密钥</h2>
+
+                <!-- 高德地图 API Key -->
+                <div class="config-section">
+                    <h3>📍 高德地图 API Key</h3>
+                    <p>用于地名解析和路线规划</p>
+                    <div class="config-input-group">
+                        <input type="text" id="amapKey" placeholder="输入您的高德地图 API Key">
+                        <a href="https://lbs.amap.com/api" target="_blank">🔗 申请 Key</a>
+                    </div>
+                    <p class="config-help">
+                        <a href="https://lbs.amap.com/api" target="_blank">点击申请高德地图 Web 服务 API</a>
+                        → 创建应用 → 获取 Key
+                    </p>
+                </div>
+
+                <!-- 火山引擎 API Key -->
+                <div class="config-section">
+                    <h3>🔥 火山引擎 API Key</h3>
+                    <p>用于 AI 识别热力图</p>
+                    <div class="config-input-group">
+                        <input type="text" id="volcKey" placeholder="输入您的火山引擎 ARK API Key">
+                        <a href="https://console.volcengine.com/ark" target="_blank" class="volc">🔗 申请 Key</a>
+                    </div>
+                    <p class="config-help">
+                        <a href="https://console.volcengine.com/ark" target="_blank" class="volc">点击申请火山引擎 ARK API</a>
+                        → 账户充值 → 创建 API Key
+                    </p>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="saveConfig()">💾 保存密钥</button>
+                </div>
+
+                <div id="configMessage" class="status"></div>
+
+                <!-- 使用说明 -->
+                <div class="guide-box">
+                    <h3>📖 使用说明</h3>
+                    <ol>
+                        <li><strong>高德地图</strong>：用于将地名转换成坐标，以及规划路线</li>
+                        <li><strong>火山引擎</strong>：用于 AI 识别热力图中的地点和热度中心位置</li>
+                        <li>两个 Key 都是必需的，系统才能完整工作</li>
+                        <li>密钥会保存在本地 .env 文件中</li>
+                        <li>首次使用前请先在"设置"标签页配置好 API Key</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let uploadedFile = null;
+        let pois = [];
+
+        // Tab 切换
+        function switchTab(index) {
+            document.querySelectorAll('.tab-content').forEach((el, i) => {
+                el.classList.toggle('active', i === index);
+            });
+            document.querySelectorAll('.tab-button').forEach((el, i) => {
+                el.classList.toggle('active', i === index);
+            });
+
+            if (index === 1) {
+                loadPois();
+            }
+        }
+
+        // 拖拽上传
+        const uploadArea = document.getElementById('uploadArea');
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFileSelect(files[0]);
+            }
+        });
+
+        // 处理文件选择
+        function handleFiles(event) {
+            const files = event.target.files;
+            if (files.length > 0) {
+                handleFileSelect(files[0]);
+            }
+        }
+
+        function handleFileSelect(file) {
+            uploadedFile = file;
+            document.getElementById('uploadBtn').disabled = false;
+            document.getElementById('diagnoseBtn').disabled = false;
+            uploadArea.innerHTML = `
+                <div class="upload-icon">✅</div>
+                <h3>已选择文件</h3>
+                <p>${file.name}</p>
+            `;
+        }
+
+        // 上传图像
+        function uploadImage() {
+            if (!uploadedFile) return;
+
+            const formData = new FormData();
+            formData.append('image', uploadedFile);
+            formData.append('period', document.getElementById('period').value);
+            formData.append('sigma', document.getElementById('sigma').value);
+
+            const statusDiv = document.getElementById('uploadStatus');
+            statusDiv.className = 'status loading';
+            statusDiv.textContent = '🔄 正在分析热力图...';
+
+            fetch('/api/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    statusDiv.className = 'status success';
+                    statusDiv.textContent = '✅ 分析成功！';
+
+                    const resultHtml = `
+                        <div class="result-card">
+                            <h3>📊 分析结果</h3>
+                            <div class="result-item">
+                                <label>热度中心:</label>
+                                <value>${data.heat_center.name}</value>
+                            </div>
+                            <div class="result-item">
+                                <label>识别地点数:</label>
+                                <value>${data.places_count}</value>
+                            </div>
+                            <div class="result-item">
+                                <label>SQLite 写入:</label>
+                                <value>${data.inserted} 条记录</value>
+                            </div>
+                            <div class="result-item">
+                                <label>POI 更新:</label>
+                                <value>${data.updated_pois} 个</value>
+                            </div>
+                            <div class="result-item">
+                                <label>时段:</label>
+                                <value>${data.period}</value>
+                            </div>
+                        </div>
+                    `;
+                    document.getElementById('resultContainer').innerHTML = resultHtml;
+                } else {
+                    statusDiv.className = 'status error';
+                    statusDiv.textContent = `❌ ${data.error || '分析失败'}`;
+                    if (data.detail) {
+                        statusDiv.textContent += `\n${data.detail}`;
+                    }
+                }
+            })
+            .catch(error => {
+                statusDiv.className = 'status error';
+                statusDiv.textContent = `❌ 错误: ${error.message}`;
+            });
+        }
+
+        // 诊断图像质量
+        function diagnoseImage() {
+            if (!uploadedFile) return;
+
+            const formData = new FormData();
+            formData.append('image', uploadedFile);
+
+            const diagDiv = document.getElementById('diagnosisResult');
+            diagDiv.innerHTML = '<div class="status loading">🔍 正在诊断图像...</div>';
+
+            fetch('/api/diagnose', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.diagnosis) {
+                    const diag = data.diagnosis;
+                    let html = '<div class="result-card" style="background: #fffbe6; border: 1px solid #ffe58f;">';
+                    html += '<h3>🔍 图像诊断报告</h3>';
+
+                    if (diag.can_diagnose) {
+                        html += `
+                            <div class="result-item"><label>文件:</label><value>${diag.filename}</value></div>
+                            <div class="result-item"><label>分辨率:</label><value>${diag.size}</value></div>
+                            <div class="result-item"><label>文件大小:</label><value>${diag.file_size_mb}MB</value></div>
+                            <div class="result-item"><label>对比度分数:</label><value>${diag.contrast}</value></div>
+                        `;
+
+                        if (diag.hot_pixels_percentage !== undefined) {
+                            html += `<div class="result-item"><label>热点像素比:</label><value>${diag.hot_pixels_percentage}%</value></div>`;
+                        }
+
+                        if (diag.issues && diag.issues.length > 0) {
+                            html += '<div style="margin-top: 15px; padding: 10px; background: #fff7e6; border-left: 3px solid #ff7a45;">';
+                            html += '<strong style="color: #ff7a45;">⚠️ 检测到的问题:</strong>';
+                            diag.issues.forEach(issue => {
+                                html += `<div style="margin: 5px 0; color: #d4380d;">• ${issue}</div>`;
+                            });
+                            html += '</div>';
+                        }
+
+                        if (diag.suggestions && diag.suggestions.length > 0) {
+                            html += '<div style="margin-top: 15px; padding: 10px; background: #f6ffed; border-left: 3px solid #52c41a;">';
+                            html += '<strong style="color: #52c41a;">💡 改进建议:</strong>';
+                            diag.suggestions.forEach(suggestion => {
+                                html += `<div style="margin: 5px 0; color: #274d0f;">${suggestion}</div>`;
+                            });
+                            html += '</div>';
+                        }
+
+                        if (!diag.issues || diag.issues.length === 0) {
+                            html += '<div style="margin-top: 15px; padding: 10px; background: #f6ffed; border-left: 3px solid #52c41a;">';
+                            html += '<strong style="color: #52c41a;">✅ 图像质量良好，可以提交识别</strong>';
+                            html += '</div>';
+                        }
+                    } else {
+                        html += '<div style="color: #999;">无法诊断（需要安装 Pillow 库）</div>';
+                    }
+
+                    html += '</div>';
+                    diagDiv.innerHTML = html;
+                } else {
+                    diagDiv.innerHTML = '<div class="status error">❌ 诊断失败</div>';
+                }
+            })
+            .catch(error => {
+                diagDiv.innerHTML = `<div class="status error">❌ 错误: ${error.message}</div>`;
+            });
+        }
+
+        // 加载 POI 列表
+        function loadPois() {
+            fetch('/api/pois')
+            .then(response => response.json())
+            .then(data => {
+                pois = data.pois || [];
+            })
+            .catch(error => console.error('加载 POI 失败:', error));
+        }
+
+        // POI 搜索和自动完成
+        document.getElementById('routeStart').addEventListener('input', (e) => {
+            const query = e.target.value.trim();
+            if (query.length > 0) {
+                showPoiList('routeStart', 'startPoiList', query);
+            } else {
+                document.getElementById('startPoiList').style.display = 'none';
+            }
+        });
+
+        document.getElementById('routeEnd').addEventListener('input', (e) => {
+            const query = e.target.value.trim();
+            if (query.length > 0) {
+                showPoiList('routeEnd', 'endPoiList', query);
+            } else {
+                document.getElementById('endPoiList').style.display = 'none';
+            }
+        });
+
+        function showPoiList(inputId, listId, query) {
+            const input = document.getElementById(inputId);
+            const list = document.getElementById(listId);
+            const filtered = pois.filter(p =>
+                p.name.toLowerCase().includes(query.toLowerCase())
+            );
+
+            if (filtered.length > 0) {
+                list.innerHTML = filtered.map(p => `
+                    <div class="poi-item" onclick="selectPoi('${inputId}', '${p.name.replace(/'/g, '\\\'')}')"">
+                        <strong>${p.name}</strong>
+                        <span class="poi-score">热度: ${p.heat_score.toFixed(2)}</span>
+                    </div>
+                `).join('');
+                list.style.display = 'block';
+            } else {
+                list.style.display = 'none';
+            }
+        }
+
+        function selectPoi(inputId, name) {
+            document.getElementById(inputId).value = name;
+            document.getElementById(inputId === 'routeStart' ? 'startPoiList' : 'endPoiList').style.display = 'none';
+        }
+
+        // 点击外部关闭 POI 列表
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#routeStart') && !e.target.closest('#startPoiList')) {
+                document.getElementById('startPoiList').style.display = 'none';
+            }
+            if (!e.target.closest('#routeEnd') && !e.target.closest('#endPoiList')) {
+                document.getElementById('endPoiList').style.display = 'none';
+            }
+        });
+
+        // 规划路线
+        function planRoute() {
+            const start = document.getElementById('routeStart').value.trim();
+            const end = document.getElementById('routeEnd').value.trim();
+            const city = document.getElementById('routeCity').value;
+
+            if (!start || !end) {
+                const statusDiv = document.getElementById('routeStatus');
+                statusDiv.className = 'status error';
+                statusDiv.textContent = '❌ 请输入起点和终点';
+                return;
+            }
+
+            const statusDiv = document.getElementById('routeStatus');
+            statusDiv.className = 'status loading';
+            statusDiv.textContent = '🔄 正在规划路线...';
+
+            fetch('/api/route/plan', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ start, end, city })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    statusDiv.className = 'status success';
+                    statusDiv.textContent = '✅ 路线规划成功！';
+
+                    const routesHtml = data.routes.map((route, idx) => `
+                        <div class="route-card">
+                            <h4>路线 ${idx + 1}</h4>
+                            <div class="route-stats">
+                                <div class="stat-item">
+                                    <div class="stat-label">热度总和</div>
+                                    <div class="stat-value">${route.heat_score_sum.toFixed(2)}</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">距离</div>
+                                    <div class="stat-value">${(route.distance / 1000).toFixed(1)} km</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">时长</div>
+                                    <div class="stat-value">${Math.round(route.duration / 60)} 分钟</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">接单评分</div>
+                                    <div class="stat-value">${route.heat_efficiency.toFixed(3)}</div>
+                                </div>
+                            </div>
+                            <div class="waypoints">
+                                <strong style="color: #666;">途经热点:</strong>
+                                ${route.waypoints.map(wp => `
+                                    <div class="waypoint">🎯 ${wp.name} (热度: ${wp.heat_score.toFixed(2)})</div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `).join('');
+
+                    document.getElementById('routeResultContainer').innerHTML = routesHtml;
+
+                    if (data.map_url) {
+                        const mapContainer = document.getElementById('mapContainer');
+                        const mapIframe = document.getElementById('routeMap');
+                        mapIframe.src = data.map_url;
+                        mapContainer.style.display = 'block';
+                    }
+                } else {
+                    statusDiv.className = 'status error';
+                    statusDiv.textContent = `❌ ${data.error}`;
+                }
+            })
+            .catch(error => {
+                statusDiv.className = 'status error';
+                statusDiv.textContent = `❌ 错误: ${error.message}`;
+            });
+        }
+
+        // 保存配置
+        function saveConfig() {
+            const amapKey = document.getElementById('amapKey').value.trim();
+            const volcKey = document.getElementById('volcKey').value.trim();
+
+            if (!amapKey || !volcKey) {
+                const msgDiv = document.getElementById('configMessage');
+                msgDiv.className = 'status error';
+                msgDiv.textContent = '❌ 请输入两个 API Key';
+                return;
+            }
+
+            const msgDiv = document.getElementById('configMessage');
+            msgDiv.className = 'status loading';
+            msgDiv.textContent = '🔄 保存中...';
+
+            fetch('/api/config', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ amap_key: amapKey, volc_key: volcKey })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    msgDiv.className = 'status success';
+                    msgDiv.textContent = '✅ 密钥保存成功！';
+                    setTimeout(() => {
+                        msgDiv.style.display = 'none';
+                    }, 3000);
+                } else {
+                    msgDiv.className = 'status error';
+                    msgDiv.textContent = `❌ ${data.error}`;
+                }
+            })
+            .catch(error => {
+                msgDiv.className = 'status error';
+                msgDiv.textContent = `❌ 错误: ${error.message}`;
+            });
+        }
+
+        // 页面加载时初始化
+        window.addEventListener('load', () => {
+            loadPois();
+
+            // 加载配置
+            fetch('/api/config')
+            .then(response => response.json())
+            .then(data => {
+                if (data.amap_key) {
+                    document.getElementById('amapKey').value = data.amap_key;
+                }
+                if (data.volc_key) {
+                    document.getElementById('volcKey').value = data.volc_key;
+                }
+            })
+            .catch(error => console.error('加载配置失败:', error));
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_5a3108634387984f33215744fe2242e7 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_5a3108634387984f33215744fe2242e7" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_5a3108634387984f33215744fe2242e7 = L.map(
+                "map_5a3108634387984f33215744fe2242e7",
+                {
+                    center: [39.9227245, 116.45648399999999],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 12,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_5db4ff93e4661c91bee5d89457852a36 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_5db4ff93e4661c91bee5d89457852a36.addTo(map_5a3108634387984f33215744fe2242e7);
+        
+    
+            var marker_5031d0b67895d3cd7afafcdfd63afbfc = L.marker(
+                [39.935589, 116.454118],
+                {
+}
+            ).addTo(map_5a3108634387984f33215744fe2242e7);
+        
+    
+            var icon_f66caab6a60851c78c4cc662de43a3a9 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "play",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_8a183decd0a4d7fb0355be1407af141c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8082dab715be21a3a9ea1e088714ccff = $(`<div id="html_8082dab715be21a3a9ea1e088714ccff" style="width: 100.0%; height: 100.0%;"><b>起点</b><br>三里屯</div>`)[0];
+                popup_8a183decd0a4d7fb0355be1407af141c.setContent(html_8082dab715be21a3a9ea1e088714ccff);
+            
+        
+
+        marker_5031d0b67895d3cd7afafcdfd63afbfc.bindPopup(popup_8a183decd0a4d7fb0355be1407af141c)
+        ;
+
+        
+    
+    
+            marker_5031d0b67895d3cd7afafcdfd63afbfc.bindTooltip(
+                `<div>
+                     起点
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5031d0b67895d3cd7afafcdfd63afbfc.setIcon(icon_f66caab6a60851c78c4cc662de43a3a9);
+            
+    
+            var marker_aca0e884fdaccf8407ab04fb78f1c635 = L.marker(
+                [39.90986, 116.45885],
+                {
+}
+            ).addTo(map_5a3108634387984f33215744fe2242e7);
+        
+    
+            var icon_eead66e33257a86d01f12c62ee48e0be = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "stop",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_df65031f6c2a656795173d0a3f2a9fac = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7082c8ae5a5d59e2c68977e5e73377dc = $(`<div id="html_7082c8ae5a5d59e2c68977e5e73377dc" style="width: 100.0%; height: 100.0%;"><b>终点</b><br>国贸</div>`)[0];
+                popup_df65031f6c2a656795173d0a3f2a9fac.setContent(html_7082c8ae5a5d59e2c68977e5e73377dc);
+            
+        
+
+        marker_aca0e884fdaccf8407ab04fb78f1c635.bindPopup(popup_df65031f6c2a656795173d0a3f2a9fac)
+        ;
+
+        
+    
+    
+            marker_aca0e884fdaccf8407ab04fb78f1c635.bindTooltip(
+                `<div>
+                     终点
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_aca0e884fdaccf8407ab04fb78f1c635.setIcon(icon_eead66e33257a86d01f12c62ee48e0be);
+            
+    
+            var poly_line_396466e54d6c00025f6e91139e5d616b = L.polyline(
+                [[39.935589, 116.454118], [39.90986, 116.45885]],
+                {"bubblingMouseEvents": true, "color": "#FF6B6B", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FF6B6B", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_5a3108634387984f33215744fe2242e7);
+        
+    
+        var popup_640807cd4811523da719dbee8a20cd5a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0e405308e581cf2a12e7ecf74356ef95 = $(`<div id="html_0e405308e581cf2a12e7ecf74356ef95" style="width: 100.0%; height: 100.0%;">路线1</div>`)[0];
+                popup_640807cd4811523da719dbee8a20cd5a.setContent(html_0e405308e581cf2a12e7ecf74356ef95);
+            
+        
+
+        poly_line_396466e54d6c00025f6e91139e5d616b.bindPopup(popup_640807cd4811523da719dbee8a20cd5a)
+        ;
+
+        
+    
+    
+            var circle_marker_6d903b78525cbaad7bce647f9d45ca73 = L.circleMarker(
+                [39.92, 116.44],
+                {"bubblingMouseEvents": true, "color": "#FF6B6B", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF6B6B", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 2}
+            ).addTo(map_5a3108634387984f33215744fe2242e7);
+        
+    
+        var popup_17a1c6cfc02d045cf075be3e8ccba856 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_166e0272c27261e952f9bbe2fd0be1a2 = $(`<div id="html_166e0272c27261e952f9bbe2fd0be1a2" style="width: 100.0%; height: 100.0%;"><b>三里屯</b><br>热度: 0.90</div>`)[0];
+                popup_17a1c6cfc02d045cf075be3e8ccba856.setContent(html_166e0272c27261e952f9bbe2fd0be1a2);
+            
+        
+
+        circle_marker_6d903b78525cbaad7bce647f9d45ca73.bindPopup(popup_17a1c6cfc02d045cf075be3e8ccba856)
+        ;
+
+        
+    
+    
+            var circle_marker_05ecf74a62d114128ec9844ba1a760f2 = L.circleMarker(
+                [39.91, 116.46],
+                {"bubblingMouseEvents": true, "color": "#FF6B6B", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF6B6B", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 2}
+            ).addTo(map_5a3108634387984f33215744fe2242e7);
+        
+    
+        var popup_f9eb6b92147ea19d6319ca29a46fd864 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f6a7c1805603ad26835b8c3cb66629ae = $(`<div id="html_f6a7c1805603ad26835b8c3cb66629ae" style="width: 100.0%; height: 100.0%;"><b>国贸</b><br>热度: 0.80</div>`)[0];
+                popup_f9eb6b92147ea19d6319ca29a46fd864.setContent(html_f6a7c1805603ad26835b8c3cb66629ae);
+            
+        
+
+        circle_marker_05ecf74a62d114128ec9844ba1a760f2.bindPopup(popup_f9eb6b92147ea19d6319ca29a46fd864)
+        ;
+
+        
+    
+    
+            var circle_marker_5c2d4881c7cf5900c3ad5f0171612b64 = L.circleMarker(
+                [39.9, 116.43],
+                {"bubblingMouseEvents": true, "color": "#FF6B6B", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF6B6B", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 2}
+            ).addTo(map_5a3108634387984f33215744fe2242e7);
+        
+    
+        var popup_a769feef1c10825f523570a9e1f9044c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a78562b2ef25f13c2ce5435886fced34 = $(`<div id="html_a78562b2ef25f13c2ce5435886fced34" style="width: 100.0%; height: 100.0%;"><b>北京站</b><br>热度: 0.70</div>`)[0];
+                popup_a769feef1c10825f523570a9e1f9044c.setContent(html_a78562b2ef25f13c2ce5435886fced34);
+            
+        
+
+        circle_marker_5c2d4881c7cf5900c3ad5f0171612b64.bindPopup(popup_a769feef1c10825f523570a9e1f9044c)
+        ;
+
+        
+    
+    
+            var circle_marker_ee9006e44ab4eacc43c5d85a65d1ad77 = L.circleMarker(
+                [39.94, 116.45],
+                {"bubblingMouseEvents": true, "color": "#FF6B6B", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF6B6B", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 2}
+            ).addTo(map_5a3108634387984f33215744fe2242e7);
+        
+    
+        var popup_e561e29d4296a7a3523cb20bacc44fda = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4a38bbbec6f3ff21076dc63da393fb35 = $(`<div id="html_4a38bbbec6f3ff21076dc63da393fb35" style="width: 100.0%; height: 100.0%;"><b>东直门</b><br>热度: 0.65</div>`)[0];
+                popup_e561e29d4296a7a3523cb20bacc44fda.setContent(html_4a38bbbec6f3ff21076dc63da393fb35);
+            
+        
+
+        circle_marker_ee9006e44ab4eacc43c5d85a65d1ad77.bindPopup(popup_e561e29d4296a7a3523cb20bacc44fda)
+        ;
+
+        
+    
+    
+            var poly_line_053f815f2eadeff1bc92a1ffa2090250 = L.polyline(
+                [[39.935589, 116.454118], [39.90986, 116.45885]],
+                {"bubblingMouseEvents": true, "color": "#4ECDC4", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#4ECDC4", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_5a3108634387984f33215744fe2242e7);
+        
+    
+        var popup_f0a04d35663395065e573e58b9a854d8 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_98f737b8487898c66f4691662d2b10c4 = $(`<div id="html_98f737b8487898c66f4691662d2b10c4" style="width: 100.0%; height: 100.0%;">路线2</div>`)[0];
+                popup_f0a04d35663395065e573e58b9a854d8.setContent(html_98f737b8487898c66f4691662d2b10c4);
+            
+        
+
+        poly_line_053f815f2eadeff1bc92a1ffa2090250.bindPopup(popup_f0a04d35663395065e573e58b9a854d8)
+        ;
+
+        
+    
+    
+            var circle_marker_beb2ad1f193bb2a617443625af1048bf = L.circleMarker(
+                [39.9, 116.42],
+                {"bubblingMouseEvents": true, "color": "#4ECDC4", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4ECDC4", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 2}
+            ).addTo(map_5a3108634387984f33215744fe2242e7);
+        
+    
+        var popup_e07f99514515d339c96cc326d93b73ef = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8d87ea04133caf65531de1157301cae7 = $(`<div id="html_8d87ea04133caf65531de1157301cae7" style="width: 100.0%; height: 100.0%;"><b>朝阳门</b><br>热度: 0.85</div>`)[0];
+                popup_e07f99514515d339c96cc326d93b73ef.setContent(html_8d87ea04133caf65531de1157301cae7);
+            
+        
+
+        circle_marker_beb2ad1f193bb2a617443625af1048bf.bindPopup(popup_e07f99514515d339c96cc326d93b73ef)
+        ;
+
+        
+    
+    
+            var circle_marker_e3fe07e2218f6783fe9584cc51559628 = L.circleMarker(
+                [39.93, 116.41],
+                {"bubblingMouseEvents": true, "color": "#4ECDC4", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4ECDC4", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 2}
+            ).addTo(map_5a3108634387984f33215744fe2242e7);
+        
+    
+        var popup_7d589886ba05aef4c173f726f50e7ea7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_641a38192529ac8eda990a51ff5815c6 = $(`<div id="html_641a38192529ac8eda990a51ff5815c6" style="width: 100.0%; height: 100.0%;"><b>工体</b><br>热度: 0.75</div>`)[0];
+                popup_7d589886ba05aef4c173f726f50e7ea7.setContent(html_641a38192529ac8eda990a51ff5815c6);
+            
+        
+
+        circle_marker_e3fe07e2218f6783fe9584cc51559628.bindPopup(popup_7d589886ba05aef4c173f726f50e7ea7)
+        ;
+
+        
+    
+    
+            var poly_line_6fbe113fe89cc273120074bd96721305 = L.polyline(
+                [[39.935589, 116.454118], [39.90986, 116.45885]],
+                {"bubblingMouseEvents": true, "color": "#FFE66D", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FFE66D", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_5a3108634387984f33215744fe2242e7);
+        
+    
+        var popup_2fb5e43a3fbf0b95fa64b888e38fe2a2 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2a267f80df35a9b5f10c196af6adffe6 = $(`<div id="html_2a267f80df35a9b5f10c196af6adffe6" style="width: 100.0%; height: 100.0%;">路线3</div>`)[0];
+                popup_2fb5e43a3fbf0b95fa64b888e38fe2a2.setContent(html_2a267f80df35a9b5f10c196af6adffe6);
+            
+        
+
+        poly_line_6fbe113fe89cc273120074bd96721305.bindPopup(popup_2fb5e43a3fbf0b95fa64b888e38fe2a2)
+        ;
+
+        
+    
+    
+            var circle_marker_fd91cfc95f66a03edc4091e4cdbc92c2 = L.circleMarker(
+                [39.98, 116.5],
+                {"bubblingMouseEvents": true, "color": "#FFE66D", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FFE66D", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 2}
+            ).addTo(map_5a3108634387984f33215744fe2242e7);
+        
+    
+        var popup_77a73658ab705cbfa578f62a8014fa6f = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ab32a48bc109e465c8eae4b09cb5b13e = $(`<div id="html_ab32a48bc109e465c8eae4b09cb5b13e" style="width: 100.0%; height: 100.0%;"><b>望京</b><br>热度: 0.55</div>`)[0];
+                popup_77a73658ab705cbfa578f62a8014fa6f.setContent(html_ab32a48bc109e465c8eae4b09cb5b13e);
+            
+        
+
+        circle_marker_fd91cfc95f66a03edc4091e4cdbc92c2.bindPopup(popup_77a73658ab705cbfa578f62a8014fa6f)
+        ;
+
+        
+    
+</script>
+</html>

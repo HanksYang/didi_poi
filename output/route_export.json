@@ -1,0 +1,105 @@
+{
+  "timestamp": "2026-05-06T10:18:43.647873",
+  "start": {
+    "name": "中关村",
+    "lng": 116.31862,
+    "lat": 39.980047
+  },
+  "end": {
+    "name": "朝阳公园",
+    "lng": 116.482276,
+    "lat": 39.944093
+  },
+  "routes": [
+    {
+      "id": 3,
+      "heat_score_sum": 3.26,
+      "distance_km": 18.759,
+      "duration_min": 29.4,
+      "heat_efficiency": 0.1737832507063276,
+      "waypoints": [
+        {
+          "name": "金融街",
+          "lng": 116.3618,
+          "lat": 39.8973,
+          "heat_score": 0.85,
+          "category": "商务区"
+        },
+        {
+          "name": "西单广场",
+          "lng": 116.3625,
+          "lat": 39.9087,
+          "heat_score": 0.83,
+          "category": "商业街"
+        },
+        {
+          "name": "宣武门",
+          "lng": 116.3556,
+          "lat": 39.8886,
+          "heat_score": 0.8,
+          "category": "商业"
+        },
+        {
+          "name": "复兴门",
+          "lng": 116.3476,
+          "lat": 39.8956,
+          "heat_score": 0.78,
+          "category": "商业"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "heat_score_sum": 3.02,
+      "distance_km": 18.759,
+      "duration_min": 29.4,
+      "heat_efficiency": 0.16098939175862254,
+      "waypoints": [
+        {
+          "name": "五道口",
+          "lng": 116.3303,
+          "lat": 39.9997,
+          "heat_score": 0.86,
+          "category": "商业街"
+        },
+        {
+          "name": "颐和园",
+          "lng": 116.2752,
+          "lat": 40.0008,
+          "heat_score": 0.73,
+          "category": "景点"
+        },
+        {
+          "name": "清华大学",
+          "lng": 116.2619,
+          "lat": 40.0086,
+          "heat_score": 0.72,
+          "category": "学校"
+        },
+        {
+          "name": "北京大学",
+          "lng": 116.3065,
+          "lat": 40.0053,
+          "heat_score": 0.71,
+          "category": "学校"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "heat_score_sum": 0.88,
+      "distance_km": 18.888,
+      "duration_min": 31.5,
+      "heat_efficiency": 0.04659042778483693,
+      "waypoints": [
+        {
+          "name": "中关村",
+          "lng": 116.3195,
+          "lat": 39.9827,
+          "heat_score": 0.88,
+          "category": "高科技园区"
+        }
+      ]
+    }
+  ]
+}

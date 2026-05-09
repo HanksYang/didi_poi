@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>滴滴司机热点周报 · 2026-04-07</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, 'PingFang SC', sans-serif; background: #0f0f1a; color: #e0e0e0; }
+    header { background: #1a1a2e; padding: 20px 32px; border-bottom: 1px solid #2d2d4e; }
+    header h1 { font-size: 1.5rem; color: #fff; }
+    header p  { font-size: 0.85rem; color: #888; margin-top: 4px; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+    .stats-row { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+    .stat-card { background: #1a1a2e; border: 1px solid #2d2d4e; border-radius: 8px;
+                  padding: 16px 20px; flex: 1; min-width: 160px; }
+    .stat-card .value { font-size: 1.6rem; font-weight: bold; color: #7c83fd; }
+    .stat-card .label { font-size: 0.78rem; color: #888; margin-top: 4px; }
+    .tabs-wrapper { background: #1a1a2e; border-radius: 10px; border: 1px solid #2d2d4e; overflow: hidden; }
+    .tab-buttons { display: flex; background: #12122a; border-bottom: 1px solid #2d2d4e; }
+    .tab-btn { flex: 1; padding: 14px 16px; background: none; border: none; color: #999;
+                cursor: pointer; font-size: 0.9rem; transition: all .2s; border-top: 3px solid transparent; }
+    .tab-btn.active, .tab-btn:hover { background: #1a1a2e; color: #fff; }
+    .badge { display: inline-block; background: #333; border-radius: 12px; padding: 2px 8px;
+              font-size: 0.72rem; margin-left: 6px; }
+    .tab-content { display: none; padding: 0; }
+    .tab-content.active { display: block; }
+    .no-data { padding: 60px; text-align: center; color: #555; }
+    .map-combined { margin-top: 24px; border-radius: 10px; overflow: hidden;
+                     border: 1px solid #2d2d4e; }
+    .map-combined h2 { background: #12122a; padding: 14px 20px; font-size: 1rem; color: #aaa; }
+    footer { text-align: center; color: #444; font-size: 0.78rem; padding: 24px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    td { padding: 6px 12px; border-bottom: 1px solid #222; }
+    tr:last-child td { border: none; }
+    .top30 { background:#1a1a2e; border:1px solid #2d2d4e; border-radius:10px;
+               margin-bottom:24px; overflow:hidden; }
+    .top30 h2 { background:#12122a; padding:14px 20px; font-size:1rem; color:#aaa; }
+    .top30 table { font-size:0.82rem; }
+    .top30 th { background:#12122a; color:#888; padding:10px 12px;
+                 text-align:left; font-weight:500; white-space:nowrap; }
+    .top30 td { padding:9px 12px; color:#ccc; }
+    .top30 tr:hover td { background:rgba(255,255,255,.03); }
+    .rank-num { font-weight:bold; color:#7c83fd; font-size:1rem; width:36px; }
+    .rank-1 .rank-num { color:#ffd700; }
+    .rank-2 .rank-num { color:#c0c0c0; }
+    .rank-3 .rank-num { color:#cd7f32; }
+    .score-bar { display:inline-block; height:6px; border-radius:3px;
+                  background:linear-gradient(90deg,#7c83fd,#e74c3c); vertical-align:middle;
+                  margin-left:6px; }
+    .addr { max-width:280px; }
+    .period-dot { display:inline-block; width:8px; height:8px; border-radius:50%;
+                   margin-right:2px; }
+    .no-data-dash { color:#444; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>🚖 滴滴司机热点地图 · 周报</h1>
+  <p>数据周期: 2026-04-07 19:53:06 → 2026-04-07 19:53:06 &nbsp;|&nbsp;
+     城市: BEIJING &nbsp;|&nbsp; 生成时间: 2026-04-07 19:58</p>
+</header>
+<div class="container">
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="value">2,498</div>
+      <div class="label">总采样记录</div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="value" style="color:#e74c3c">0</div>
+      <div class="label">早高峰 推荐热点</div>
+      <div style="font-size:.75rem;color:#666;margin-top:4px">平均热力: —</div>
+    </div>
+    <div class="stat-card">
+      <div class="value" style="color:#f39c12">0</div>
+      <div class="label">白天 推荐热点</div>
+      <div style="font-size:.75rem;color:#666;margin-top:4px">平均热力: —</div>
+    </div>
+    <div class="stat-card">
+      <div class="value" style="color:#8e44ad">10</div>
+      <div class="label">晚高峰 推荐热点</div>
+      <div style="font-size:.75rem;color:#666;margin-top:4px">平均热力: 0.18</div>
+    </div>
+  </div>
+
+  
+  <div class="top30">
+    <h2>🏆 Top 30 热门接单地点（综合全时段得分）</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>排名</th>
+          <th>地点</th>
+          <th><span class="period-dot" style="background:#e74c3c"></span>早高峰</th>
+          <th><span class="period-dot" style="background:#f39c12"></span>白天</th>
+          <th><span class="period-dot" style="background:#8e44ad"></span>晚高峰</th>
+          <th>坐标</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr class="rank-1">
+        <td class="rank-num">#1</td>
+        <td class="addr">房山区长阳镇靠山居·艺墅南区</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">1.00</span><span class="score-bar" style="width:60px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.2150,39.8050</td>
+      </tr>
+      <tr class="rank-2">
+        <td class="rank-num">#2</td>
+        <td class="addr">丰台区和义街道和义东里五区1号楼和义东里社区五区</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">1.00</span><span class="score-bar" style="width:60px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.4050,39.8150</td>
+      </tr>
+      <tr class="rank-3">
+        <td class="rank-num">#3</td>
+        <td class="addr">丰台区南苑街道小飞机宾馆</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">1.00</span><span class="score-bar" style="width:60px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.4150,39.7950</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#4</td>
+        <td class="addr">石景山区八角街道石景山路57号松林公园</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.86</span><span class="score-bar" style="width:51px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.2050,39.9050</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#5</td>
+        <td class="addr">朝阳区八里庄街道住邦2000商务楼2号楼住邦2000商务中心</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.83</span><span class="score-bar" style="width:49px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.4950,39.9150</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#6</td>
+        <td class="addr">朝阳区高碑店乡朝阳区甘露实验幼儿园甘露园南里一区</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.72</span><span class="score-bar" style="width:43px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.5150,39.9150</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#7</td>
+        <td class="addr">朝阳区管庄乡北京新天地北京新天地朝阳路7号院</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.72</span><span class="score-bar" style="width:43px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.6050,39.9150</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#8</td>
+        <td class="addr">朝阳区高碑店乡兴隆街83号兴隆公园</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.72</span><span class="score-bar" style="width:43px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.5350,39.9150</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#9</td>
+        <td class="addr">朝阳区八里庄街道华堂商场(十里堡店)新城市广场</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.72</span><span class="score-bar" style="width:43px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.5050,39.9150</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#10</td>
+        <td class="addr">顺义区后沙峪镇土豆王国联东u谷•蓝贝科技园</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.69</span><span class="score-bar" style="width:41px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.5650,40.1050</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#11</td>
+        <td class="addr">朝阳区管庄乡朝阳路23号京通苑</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.67</span><span class="score-bar" style="width:40px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.5950,39.9150</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#12</td>
+        <td class="addr">石景山区五里坨街道五里坨小学小青山公园</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.58</span><span class="score-bar" style="width:35px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.1250,39.9550</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#13</td>
+        <td class="addr">朝阳区东风乡南十里居西路东润枫景</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.58</span><span class="score-bar" style="width:35px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.4950,39.9550</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#14</td>
+        <td class="addr">大兴区瀛海镇三太路北京经济技术开发区</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.58</span><span class="score-bar" style="width:35px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.4550,39.7550</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#15</td>
+        <td class="addr">大兴区青云店镇南宫生物质能源有限公司</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.58</span><span class="score-bar" style="width:35px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.4650,39.7350</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#16</td>
+        <td class="addr">丰台区看丹街道看丹南路看丹欣园一期2号院</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.58</span><span class="score-bar" style="width:35px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.2650,39.8350</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#17</td>
+        <td class="addr">朝阳区三间房乡北京第二外国语学院国际交流中心</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.58</span><span class="score-bar" style="width:35px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.5650,39.9150</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#18</td>
+        <td class="addr">朝阳区管庄乡老虎团东家属院18号楼</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.58</span><span class="score-bar" style="width:35px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.6150,39.9150</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#19</td>
+        <td class="addr">石景山区五里坨街道石门路28号</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.58</span><span class="score-bar" style="width:35px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.1450,39.9450</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#20</td>
+        <td class="addr">通州区九棵树街道云景北里(五所宿舍楼)</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.58</span><span class="score-bar" style="width:35px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.6650,39.8850</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#21</td>
+        <td class="addr">大兴区旧宫镇德裕街3号北京经济技术开发区</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.58</span><span class="score-bar" style="width:35px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.4350,39.7750</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#22</td>
+        <td class="addr">海淀区东升镇莱圳家园莱圳家园南区</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.58</span><span class="score-bar" style="width:35px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.3450,40.0450</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#23</td>
+        <td class="addr">石景山区五里坨街道黑石头路九十九号院</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.58</span><span class="score-bar" style="width:35px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.1350,39.9550</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#24</td>
+        <td class="addr">房山区长阳镇独义村109号</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.58</span><span class="score-bar" style="width:35px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.2150,39.7950</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#25</td>
+        <td class="addr">顺义区南法信镇北京塬天运动文化中心</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.58</span><span class="score-bar" style="width:35px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.6250,40.1550</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#26</td>
+        <td class="addr">大兴区西红门镇南中轴路</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.58</span><span class="score-bar" style="width:35px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.4050,39.7450</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#27</td>
+        <td class="addr">石景山区金顶街街道模式口大街</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.58</span><span class="score-bar" style="width:35px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.1550,39.9350</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#28</td>
+        <td class="addr">房山区长阳镇纬二路</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.58</span><span class="score-bar" style="width:35px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.2150,39.7750</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#29</td>
+        <td class="addr">石景山区八角街道绿地花园(装修中)北京巴布科克威尔科克斯有限公司</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.58</span><span class="score-bar" style="width:35px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.1950,39.9050</td>
+      </tr>
+      <tr class="">
+        <td class="rank-num">#30</td>
+        <td class="addr">昌平区沙河镇于辛庄路16号未来科学城(建设中)</td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span class="no-data-dash">—</span></td>
+        <td><span style="color:#8e44ad;font-weight:500">0.58</span><span class="score-bar" style="width:35px;background:#8e44ad"></span></td>
+        <td style="color:#888;font-size:.75rem">116.2950,40.1450</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tabs-wrapper">
+    <div class="tab-buttons">
+      
+          <button class="tab-btn active" onclick="switchTab('morning_peak')"
+                  data-period="morning_peak" style="border-top: 3px solid #e74c3c">
+            早高峰
+            <span class="badge" style="background:#e74c3c">0 热点</span>
+          </button>
+          <button class="tab-btn " onclick="switchTab('daytime')"
+                  data-period="daytime" style="border-top: 3px solid #f39c12">
+            白天
+            <span class="badge" style="background:#f39c12">0 热点</span>
+          </button>
+          <button class="tab-btn " onclick="switchTab('evening_peak')"
+                  data-period="evening_peak" style="border-top: 3px solid #8e44ad">
+            晚高峰
+            <span class="badge" style="background:#8e44ad">20 热点</span>
+          </button>
+    </div>
+    
+          <div id="tab-morning_peak" class="tab-content active show">
+            <iframe src="morning_peak.html" width="100%" height="600px" frameborder="0"></iframe>
+          </div>
+          <div id="tab-daytime" class="tab-content ">
+            <iframe src="daytime.html" width="100%" height="600px" frameborder="0"></iframe>
+          </div>
+          <div id="tab-evening_peak" class="tab-content ">
+            <iframe src="evening_peak.html" width="100%" height="600px" frameborder="0"></iframe>
+          </div>
+  </div>
+
+  <div class="map-combined">
+    <h2>📍 全时段综合图（可切换图层）</h2>
+    <iframe src="all_periods_map.html" width="100%" height="620px" frameborder="0"></iframe>
+  </div>
+
+  <div style="margin-top:24px; background:#1a1a2e; border:1px solid #2d2d4e; border-radius:8px; padding:16px;">
+    <h3 style="font-size:.9rem; color:#888; margin-bottom:10px;">各时段采样量</h3>
+    <table><tr><td>晚高峰</td><td>2,498</td></tr></table>
+  </div>
+</div>
+<footer>由高德地图 API 提供路况数据 &nbsp;·&nbsp; 仅供参考，实际接单请结合本地经验</footer>
+
+<script>
+function switchTab(periodKey) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active','show'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + periodKey).classList.add('active','show');
+  document.querySelector('[data-period="' + periodKey + '"]').classList.add('active');
+}
+</script>
+</body>
+</html>

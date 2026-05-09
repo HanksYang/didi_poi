@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DiDi 司机热点系统 - 热力图上传 & 路线规划</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 900px;
+            width: 100%;
+            padding: 0;
+            animation: slideIn 0.5s ease-out;
+            overflow: hidden;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tabs-header {
+            display: flex;
+            border-bottom: 2px solid #f0f0f0;
+            background: #fafafa;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 16px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #999;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab-btn:hover {
+            color: #667eea;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tabs-content {
+            padding: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .tabs-content {
+                padding: 30px 20px;
+            }
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .upload-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .upload-section {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        .upload-area {
+            position: relative;
+            border: 2px dashed #667eea;
+            border-radius: 8px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9ff;
+        }
+
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: #f0f2ff;
+        }
+
+        .upload-area.drag-over {
+            border-color: #764ba2;
+            background: #e0e5ff;
+            transform: scale(1.02);
+        }
+
+        .upload-area input[type="file"] {
+            display: none;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .upload-text h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .upload-text p {
+            color: #999;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .preview-area {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .preview-image {
+            width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+            object-fit: cover;
+            display: none;
+            border: 1px solid #eee;
+        }
+
+        .preview-image.show {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .filename {
+            font-size: 13px;
+            color: #666;
+            word-break: break-all;
+            display: none;
+        }
+
+        .filename.show {
+            display: block;
+        }
+
+        .parameters {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .parameters.show {
+            display: block;
+        }
+
+        .param-group {
+            margin-bottom: 16px;
+        }
+
+        .param-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .param-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .param-group select,
+        .param-group input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .param-group select:focus,
+        .param-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .sigma-slider {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .sigma-slider input[type="range"] {
+            flex: 1;
+            height: 4px;
+            appearance: none;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            border: none;
+            border-radius: 2px;
+            padding: 0;
+            width: 100%;
+        }
+
+        .sigma-slider input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s;
+        }
+
+        .sigma-slider input[type="range"]::-webkit-slider-thumb:hover {
+            background: #764ba2;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .sigma-value {
+            min-width: 50px;
+            text-align: right;
+            font-weight: 600;
+            color: #667eea;
+            font-size: 14px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #f0f2ff;
+            color: #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e5ff;
+        }
+
+        .result-section {
+            display: none;
+            padding: 30px;
+            background: #f8fafb;
+            border-radius: 8px;
+            margin-top: 30px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .result-section.show {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .result-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: white;
+            border-radius: 6px;
+        }
+
+        .status-icon {
+            font-size: 24px;
+        }
+
+        .status-icon.success {
+            color: #10b981;
+        }
+
+        .status-icon.error {
+            color: #ef4444;
+        }
+
+        .status-icon.loading {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .status-text h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .status-text p {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 16px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c00;
+            padding: 16px;
+            border-radius: 6px;
+            border: 1px solid #fcc;
+            font-size: 13px;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f4f6;
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        /* 路线规划样式 */
+        .route-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .route-form {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #333;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .route-button {
+            grid-column: span 2;
+            height: 44px;
+        }
+
+        @media (max-width: 768px) {
+            .route-button {
+                grid-column: span 1;
+            }
+        }
+
+        .routes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .route-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .route-card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .route-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .route-id {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .route-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            flex: 1;
+        }
+
+        .route-efficiency {
+            background: #f0f2ff;
+            color: #667eea;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .route-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+
+        .route-info-item {
+            background: #f8f9ff;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        .route-info-label {
+            font-size: 11px;
+            color: #999;
+            margin-bottom: 2px;
+        }
+
+        .route-info-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .route-waypoints {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .route-waypoints-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .route-waypoint {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0;
+        }
+
+        .route-waypoint-score {
+            background: linear-gradient(to right, #667eea, #764ba2);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+
+        .map-container {
+            background: #f0f2ff;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .map-iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .map-iframe {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Tab 导航 -->
+        <div class="tabs-header">
+            <button class="tab-btn active" data-tab="upload-tab">🔥 热力图上传</button>
+            <button class="tab-btn" data-tab="route-tab">🛣️ 路线规划</button>
+        </div>
+
+        <!-- Tab 1：热力图上传 -->
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📸</div>
+                <div class="upload-text">
+                    <h3>点击或拖拽上传</h3>
+                    <p>支持 JPG, PNG, GIF<br>最大 50MB</p>
+                </div>
+                <input type="file" id="fileInput" accept="image/*">
+            </div>
+
+            <div>
+                <div class="preview-area">
+                    <img id="preview" class="preview-image" alt="预览">
+                    <div id="filename" class="filename"></div>
+                </div>
+
+                <div id="parameters" class="parameters">
+                    <div class="param-group">
+                        <label>时段选择</label>
+                        <select id="period">
+                            <option value="auto">自动推断（推荐）</option>
+                            <option value="morning_peak">早高峰 (07:00-09:00)</option>
+                            <option value="daytime">白天 (10:00-16:00)</option>
+                            <option value="evening_peak">晚高峰 (17:00-20:00)</option>
+                        </select>
+                    </div>
+
+                    <div class="param-group">
+                        <label>高斯衰减半径</label>
+                        <div class="sigma-slider">
+                            <input type="range" id="sigma" min="0.5" max="10" step="0.5" value="3" />
+                            <div class="sigma-value"><span id="sigmaDisplay">3</span>km</div>
+                        </div>
+                        <p style="font-size: 11px; color: #999; margin-top: 6px;">
+                            σ=1km：近距离高权重 | σ=3km：均衡（推荐） | σ=5km：广域覆盖
+                        </p>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button id="submitBtn" class="btn btn-primary" style="display: none;">
+                        ⬆️ 上传分析
+                    </button>
+                    <button id="resetBtn" class="btn btn-secondary" style="display: none;">
+                        🔄 清空重来
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="resultSection" class="result-section">
+            <div id="resultContent"></div>
+        </div>
+    </div>
+
+    <script>
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const preview = document.getElementById('preview');
+        const filename = document.getElementById('filename');
+        const parameters = document.getElementById('parameters');
+        const submitBtn = document.getElementById('submitBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const resultSection = document.getElementById('resultSection');
+        const resultContent = document.getElementById('resultContent');
+        const sigma = document.getElementById('sigma');
+        const sigmaDisplay = document.getElementById('sigmaDisplay');
+
+        // 更新sigma值显示
+        sigma.addEventListener('input', (e) => {
+            sigmaDisplay.textContent = e.target.value;
+        });
+
+        // 文件上传处理
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('drag-over');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('drag-over');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('drag-over');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        function handleFiles(files) {
+            if (files.length === 0) return;
+
+            const file = files[0];
+
+            // 验证文件
+            if (!file.type.startsWith('image/')) {
+                alert('请选择图片文件');
+                return;
+            }
+
+            if (file.size > 50 * 1024 * 1024) {
+                alert('文件太大，最大50MB');
+                return;
+            }
+
+            // 显示预览
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                preview.src = e.target.result;
+                preview.classList.add('show');
+                filename.textContent = `📄 ${file.name}`;
+                filename.classList.add('show');
+                parameters.classList.add('show');
+                submitBtn.style.display = 'block';
+                resultSection.classList.remove('show');
+            };
+            reader.readAsDataURL(file);
+
+            fileInput.value = '';
+        }
+
+        // 提交
+        submitBtn.addEventListener('click', async () => {
+            if (fileInput.files.length === 0) {
+                alert('请先选择图片');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('image', fileInput.files[0]);
+            formData.append('period', document.getElementById('period').value);
+            formData.append('sigma', sigma.value);
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<div class="spinner"></div> 分析中...';
+
+            try {
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showSuccessResult(data);
+                } else {
+                    showErrorResult(data.error || '分析失败');
+                }
+            } catch (error) {
+                showErrorResult(error.message || '网络错误');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '⬆️ 上传分析';
+                resetBtn.style.display = 'block';
+            }
+        });
+
+        // 重置
+        resetBtn.addEventListener('click', () => {
+            fileInput.value = '';
+            preview.classList.remove('show');
+            filename.classList.remove('show');
+            parameters.classList.remove('show');
+            submitBtn.style.display = 'none';
+            resetBtn.style.display = 'none';
+            resultSection.classList.remove('show');
+            uploadArea.classList.remove('drag-over');
+        });
+
+        function showSuccessResult(data) {
+            const heat = data.heat_center || {};
+            const html = `
+                <div class="result-status">
+                    <div class="status-icon success">✓</div>
+                    <div class="status-text">
+                        <h4>分析完成！✨</h4>
+                        <p>热度数据已成功更新到后台</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">${data.inserted || 0}</div>
+                        <div class="stat-label">SQLite 写入</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${data.updated_pois || 0}</div>
+                        <div class="stat-label">POI 更新</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${data.places_count || 0}</div>
+                        <div class="stat-label">识别地点</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${data.sigma_km || 3}</div>
+                        <div class="stat-label">衰减半径</div>
+                    </div>
+                </div>
+
+                <h4 style="margin-bottom: 12px; color: #333;">热度中心</h4>
+                <div class="stat-card" style="text-align: left; margin-bottom: 20px;">
+                    <div style="font-weight: 600; margin-bottom: 8px;">${heat.name || '未知区域'}</div>
+                    <div style="font-size: 12px; color: #666;">
+                        📍 经度: ${heat.lng?.toFixed(4) || 'N/A'}<br>
+                        📍 纬度: ${heat.lat?.toFixed(4) || 'N/A'}<br>
+                        信心度: ${(heat.confidence * 100).toFixed(0)}%
+                    </div>
+                </div>
+            `;
+
+            resultContent.innerHTML = html;
+            resultSection.classList.add('show');
+        }
+
+        function showErrorResult(error) {
+            const html = `
+                <div class="result-status">
+                    <div class="status-icon error">✕</div>
+                    <div class="status-text">
+                        <h4>分析失败</h4>
+                        <p>请检查图片或重试</p>
+                    </div>
+                </div>
+                <div class="error-message">
+                    ${error}
+                </div>
+            `;
+
+            resultContent.innerHTML = html;
+            resultSection.classList.add('show');
+        }
+    </script>
+</body>
+</html>
