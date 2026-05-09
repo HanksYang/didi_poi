@@ -60,11 +60,32 @@ jobs:
           ls -la releases/ || echo "No releases directory"
         shell: bash
 
-      - name: Upload to Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
         with:
-          files: releases/**/*.zip
+          name: release-${{ matrix.platform }}
+          path: releases/**/*.zip
+          retention-days: 1
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts/
+          merge-multiple: true
+
+      - name: List downloaded files
+        run: find artifacts/ -name "*.zip" | sort
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: artifacts/**/*.zip
           draft: false
           prerelease: false
         env:
